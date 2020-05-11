@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Products extends Model
 {
     protected $fillable = [
+        'id',
         'name',
         'description',
         'price',
@@ -14,4 +15,10 @@ class Products extends Model
         'categorie',
         'categ_id'
     ];
+
+
+    public function images()
+    {
+        return $this->hasMany(Images::class, 'product_id');
+    }
 }

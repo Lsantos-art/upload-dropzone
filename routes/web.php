@@ -31,6 +31,13 @@ Route::post('/categEdit', 'CategoriesController@update')->name('categ.update');
 Route::get('/categDelete/{id}', 'CategoriesController@destroy')->name('categ.delete');
 
 Route::get('/products', 'ProductsController@index')->name('products');
+Route::get('/products/{id}', 'ProductsController@show')->name('product.show');
 Route::get('/productForm', 'ProductsController@create')->name('products.form');
 Route::post('/productStore', 'ProductsController@store')->name('products.store');
+
+
+Route::get('dropzone', 'DropController@test')->name('test');
+Route::post('teststore', 'DropController@store')->name('teststore');
+Route::post('testdelete', 'DropController@delete')->name('testdelete');
+
 

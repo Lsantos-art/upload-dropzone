@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Categories;
+use App\Images;
 use App\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController extends Controller
 {
@@ -13,9 +15,15 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function test()
+    {
+        return view('drop');
+    }
+
     public function index()
     {
-        dd('Produtos...');
+        $products = Products::get();
+        return view('products', compact('products'));
     }
 
     /**
@@ -37,7 +45,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+        dd($request->all());
 
         $product = Products::where('name', $request->name)->first();
 
@@ -50,13 +58,26 @@ class ProductsController extends Controller
         $data['name'] = $request->name;
         $data['description'] = $request->description;
         $data['price'] = $request->price;
-        $data['images'] = $request->images;
         $data['categorie'] = $categorie->name;
         $data['categ_id'] = $request->categorie;
 
         $result = Products::create($data);
+
+        for ($i = 0; $i < count($request->allFiles()['images']); $i++) {
+            $file = $request->file()['images'][$i];
+            $extension = $file->extension();
+            $name = mt_rand().'.'.$extension;
+            $file->storeAs('lsantos-products', $name, $options = ['ACL' => 'public-read']);
+            $imageData['name'] = $name;
+            $imageData['link'] = Storage::url('lsantos-products/'.$name);
+            $imageData['product_id'] = $result->id;
+            Images::create($imageData);
+        }
+
+        dd('Registrado...');
                 return redirect()
                             ->route('home');
+
     }
 
     /**
@@ -67,7 +88,8 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Products::find($id);
+        return view('showProduct', compact('product'));
     }
 
     /**

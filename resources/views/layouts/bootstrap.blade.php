@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/7a4aa7b0e2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('site/styles.css') }}">
+
     <title>@yield('title', '')</title>
 </head>
 <body>
@@ -27,12 +28,13 @@
 
     <div class="container my-3">
           @yield('content')
-          @yield('script')
+
     </div>
 
 
 
 
+    @yield('script')
     <script src="{{ asset('site/jquery.js') }}"></script>
     <script src="{{ asset('site/bootstrap.js') }}"></script>
 </body>
